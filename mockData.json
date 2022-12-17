@@ -1,14 +1,42 @@
 [
 	{
-		"imageUrl": "",
-		"name": "AAA",
-		"description": "AAA AAA",
-		"price": 100
+		"groupName": "Bestsellers",
+		"groupData": [
+			{
+				"imageUrl": "",
+				"name": "Corned Beef Supreme",
+				"description": "Plain Rice, Corned Beef, and Caramelized Onions"
+			},
+			{
+				"imageUrl": "",
+				"name": "Garlic Lovers",
+				"description": "Garlic Rice, Hungarian Sausage, and Garlic Flakes"
+			},
+			{
+				"imageUrl": "",
+				"name": "American Nuggies",
+				"description": "Brown Rice, Chicken Nuggets, and Tempura Flakes"
+			}
+		]
 	},
 	{
-		"imageUrl": "",
-		"name": "BBB",
-		"description": "BBB BBB",
-		"price": 200
+		"groupName": "Rice",
+		"groupData": [
+			{
+				"imageUrl": "",
+				"name": "Plain Rice",
+				"description": "Good old regular white rice"
+			},
+			{
+				"imageUrl": "",
+				"name": "Brown Rice",
+				"description": "Brown rice"
+			},
+			{
+				"imageUrl": "",
+				"name": "Basmati Rice",
+				"description": "Cool rice"
+			}
+		]
 	}
 ]

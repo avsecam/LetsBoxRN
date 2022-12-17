@@ -1,31 +1,52 @@
-import { Image, Text, View } from "react-native"
+import { Dimensions, Image, StyleSheet, Text, useWindowDimensions, View } from "react-native"
 
-export type MenuItem = {
+interface Props {
 	imageUrl?: string,
 	name: string,
 	description: string,
-	price: number,
 }
 
-const MenuItemRow = (menuItem: MenuItem) => {
+const MenuItemRow = (menuItem: Props) => {
 	return (
 		<>
-			<View>
-				<Image source={{uri: menuItem.imageUrl}}></Image>
-				<View>
-					<Text>
+			<View style={styles.row}>
+				<Image style={styles.imageContainer} source={(menuItem.imageUrl) ? {uri: menuItem.imageUrl} : require("../assets/food.png")} />
+				<View style={styles.infoContainer}>
+					<Text style={styles.itemName}>
 						{menuItem.name}
 					</Text>
-					<Text>
+					<Text style={styles.itemDescription}>
 						{menuItem.description}
-					</Text>
-					<Text>
-						{menuItem.price.toFixed(2)}
 					</Text>
 				</View>
 			</View>
 		</>
 	)
 }
+
+const styles = StyleSheet.create({
+	row: {
+		paddingVertical: 5,
+		paddingHorizontal: 10,
+		marginVertical: 5,
+		display: "flex",
+		flexDirection: "row",
+		backgroundColor: "red",
+		alignItems: "center",
+	},
+	imageContainer: {
+		width: 100,
+		height: 100,
+		marginRight: 10,
+	},
+	infoContainer: {
+	},
+	itemName: {
+		fontSize: 20,
+	},
+	itemDescription: {
+		width: "80%",
+	},
+})
 
 export default MenuItemRow

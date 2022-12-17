@@ -1,34 +1,53 @@
-import { FlatList, StyleSheet, View } from "react-native"
+import { Pressable, FlatList, ScrollView, StyleSheet, View } from "react-native"
 import { Text } from "react-native"
 
-import MenuItemRow, { MenuItem } from './menuItemRow';
 import mockData from '../mockData.json';
+import Header from "./header";
+import MenuGroup from "./menuGroup";
 
-const MainMenu: () => JSX.Element = () => {
+const MainMenu = () => {
+	let menuGroups: JSX.Element[] = []
+	for (var i = 0; i < mockData.length; i++) {
+		menuGroups.push(
+			<MenuGroup groupName={mockData[i].groupName} data={mockData[i].groupData} key={i}/>
+		)
+	}
+
 	return (
 		<>
-			<View style={styles.header}>
-				<Text>Logo</Text>
-				<Text>Brgr</Text>
+			<Header />
+			<ScrollView>
+				{menuGroups}
+			</ScrollView>
+			<View style={styles.footer}>
+				<Pressable style={styles.footerBtn}>
+					<Text style={styles.footerBtnText}>Manual Order</Text>
+				</Pressable>
 			</View>
-			<FlatList
-				data={Object.create(mockData)}
-				renderItem={({ item }) => (
-					<MenuItemRow description={item.description} name={item.name} price={item.price}></MenuItemRow>
-				)}
-			/>
-
 		</>
 	)
 }
 
 const styles = StyleSheet.create({
-	header: {
+	footer: {
+		padding: 10,
+		height: 80,
 		display: "flex",
-		flexDirection: "row",
-		justifyContent: "space-between",
-		padding: 20,
+		justifyContent: "center",
 	},
+	footerBtn: {
+		borderRadius: 5,
+		height: "100%",
+		width: "100%",
+		backgroundColor: "red",
+		display: "flex",
+		justifyContent: "center",
+	},
+	footerBtnText: {
+		textAlign: "center",
+		fontSize: 20,
+		textTransform: "uppercase",
+	}
 })
 
 export default MainMenu;
