@@ -1,9 +1,9 @@
 import React from 'react';
 import type { ReactNode } from 'react';
-import MainMenu from './src/menu';
+import MainMenu from './src/menu/menu';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import ProductScreen from './src/product';
+import ProductScreen from './src/product/product';
 
 let Stack = createNativeStackNavigator();
 

@@ -2,7 +2,6 @@ import { FlatList, StyleSheet, View } from "react-native"
 import { Text } from "react-native"
 
 import MenuItemRow from './menuItemRow';
-import mockData from '../mockData.json';
 import { MenuItem } from "./menuUtils";
 
 interface Props {

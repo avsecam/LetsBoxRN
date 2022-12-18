@@ -1,8 +1,8 @@
-import { Pressable, FlatList, ScrollView, StyleSheet, View } from "react-native"
+import { Pressable, ScrollView, StyleSheet, View } from "react-native"
 import { Text } from "react-native"
 
-import mockData from '../mockData.json';
-import Header from "./header";
+import mockData from '../../mockData.json';
+import Header from "../components/header";
 import MenuGroup from "./menuGroup";
 
 const MainMenu = () => {
