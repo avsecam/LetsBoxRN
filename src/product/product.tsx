@@ -69,11 +69,11 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "space-between",
 		paddingVertical: 15,
-		paddingHorizontal: "15%",
+		paddingHorizontal: "10%",
 		marginBottom: 20,
 	},
 	sizeLabel: {
-		fontSize: 30,
+		fontSize: 25,
 	},
 })
 

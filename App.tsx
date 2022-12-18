@@ -13,10 +13,12 @@ const App: () => ReactNode = () => {
 			{/* <NavigationContainer> */}
 			{/* <Stack.Navigator> */}
 			{/* <Stack.Screen name="MainMenu" component={MainMenu}/> */}
-			{/* <Stack.Screen name="Product" component={MainMenu}/> */}
+			{/* <Stack.Screen name="Product" component={ProductScreen}/> */}
 			{/* </Stack.Navigator> */}
 			{/* </NavigationContainer> */}
-			<ProductScreen />
+
+			{/* <ProductScreen /> */}
+			<MainMenu />
 		</>
 	);
 };

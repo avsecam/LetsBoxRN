@@ -14,6 +14,7 @@ const SizeButton = (props: ButtonProps) => {
 		<>
 			<TouchableOpacity style={[styles.radioButton, (props.isChosen) ? styles.radioButtonChosen : null]} onPress={props.onPress}>
 				<Text style={styles.radioButtonText}>{props.sizeName}</Text>
+				<Text style={[styles.radioButtonText, styles.radioButtonPrice]}>P{props.price.toFixed(2)}</Text>
 			</TouchableOpacity>
 		</>
 	)
@@ -47,13 +48,14 @@ const SizePicker = () => {
 
 const styles = StyleSheet.create({
 	sizesPicker: {
-		display: "flex",
 		alignItems: "flex-end",
 	},
 	
 	radioButton: {
+		flexDirection: "row",
 		padding: 10,
 		borderRadius: 10,
+		justifyContent: "space-between",
 	},
 	radioButtonChosen: {
 		backgroundColor: "green",
@@ -61,6 +63,9 @@ const styles = StyleSheet.create({
 	radioButtonText: {
 		textAlign: "center",
 		fontSize: 15,
+	},
+	radioButtonPrice: {
+		paddingLeft: 20,
 	},
 })
 

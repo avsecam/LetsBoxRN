@@ -10,7 +10,7 @@ const MenuItemRow = (menuItem: Props) => {
 	return (
 		<>
 			<View style={styles.row}>
-				<Image style={styles.imageContainer} source={(menuItem.imageUrl) ? {uri: menuItem.imageUrl} : require("../assets/food.png")} />
+				<Image style={styles.imageContainer} source={(menuItem.imageUrl) ? {uri: menuItem.imageUrl} : require("../../assets/food.png")} />
 				<View style={styles.infoContainer}>
 					<Text style={styles.itemName}>
 						{menuItem.name}
