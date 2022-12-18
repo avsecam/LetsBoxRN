@@ -1,4 +1,4 @@
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
+import { Image, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
 import Header from "../components/header"
 import { MenuItem } from "../menu/menuUtils"
 import { productSizes } from "../utils"
@@ -20,8 +20,8 @@ const ProductScreen = () => {
 	return (
 		<>
 			<Header />
-			<ScrollView style={styles.container} contentContainerStyle={{alignItems: "center"}}>
-				<Image style={styles.imageContainer} source={require("../../assets/food.png")}/>
+			<ScrollView style={styles.container} contentContainerStyle={{ alignItems: "center" }}>
+				<Image style={styles.imageContainer} source={require("../../assets/food.png")} />
 				<View style={styles.productInfo}>
 					<Text style={styles.productName}>{props.name}</Text>
 					<Text style={styles.productDescription}>{props.description}</Text>
@@ -30,7 +30,9 @@ const ProductScreen = () => {
 					<Text style={styles.sizeLabel}>Size</Text>
 					<SizePicker />
 				</View>
-				<QuantityPicker />
+				<KeyboardAvoidingView behavior="padding">
+					<QuantityPicker />
+				</KeyboardAvoidingView>
 			</ScrollView>
 		</>
 	)

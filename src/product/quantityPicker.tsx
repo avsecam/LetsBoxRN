@@ -1,18 +1,23 @@
 import { useState } from "react"
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native"
 
 const QuantityPicker = () => {
 	let [qty, setQty] = useState(1)
 
 	const handleSetQty = (newQty: number) => {
-		setQty((newQty >= 0) ? newQty : 0)
+		if (newQty < 0 || newQty > 99) return
+		setQty(newQty)
+	}
+
+	const handleSetQtyInput = (newQty: string) => {
+		handleSetQty((isNaN(Number.parseInt(newQty))) ? 0 : Number.parseInt(newQty))
 	}
 
 	return (
 		<>
 			<View style={styles.qtyContainer}>
 				<TouchableOpacity style={[styles.qtyBtn, styles.qtyBtnLeft]} onPress={() => handleSetQty(qty - 1)}><Text style={styles.qtyBtnText}>-</Text></TouchableOpacity>
-				<Text style={styles.qty}>{qty}</Text>
+				<TextInput style={styles.qty} value={qty.toString()} keyboardType="number-pad" onChangeText={(text: string) => handleSetQtyInput(text)} />
 				<TouchableOpacity style={[styles.qtyBtn, styles.qtyBtnRight]} onPress={() => handleSetQty(qty + 1)}><Text style={styles.qtyBtnText}>+</Text></TouchableOpacity>
 			</View>
 		</>
