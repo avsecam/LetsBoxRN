@@ -2,6 +2,7 @@ import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-nati
 import Header from "../components/header"
 import { MenuItem } from "../menu/menuUtils"
 import { productSizes } from "../utils"
+import QuantityPicker from "./quantityPicker"
 import SizePicker from "./sizePicker"
 
 interface Props {
@@ -29,11 +30,7 @@ const ProductScreen = () => {
 					<Text style={styles.sizeLabel}>Size</Text>
 					<SizePicker />
 				</View>
-				<View style={styles.qtyContainer}>
-					<Text style={styles.qtyBtn}>-</Text>
-					<Text style={styles.qty}>2</Text>
-					<Text style={styles.qtyBtn}>+</Text>
-				</View>
+				<QuantityPicker />
 			</ScrollView>
 		</>
 	)
@@ -60,27 +57,20 @@ const styles = StyleSheet.create({
 	},
 
 	sizesContainer: {
-		width: "80%",
+		borderStyle: "solid",
+		borderWidth: 1,
+		borderRadius: 10,
+		borderColor: "white",
+		width: "100%",
 		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
+		paddingVertical: 15,
+		paddingHorizontal: "15%",
 		marginBottom: 20,
 	},
 	sizeLabel: {
-		fontSize: 30,
-	},
-
-	qtyContainer: {
-		width: "80%",
-		display: "flex",
-		flexDirection: "row",
-		justifyContent: "space-around",
-	},
-	qtyBtn: {
-		fontSize: 30,
-	},
-	qty: {
 		fontSize: 30,
 	},
 })

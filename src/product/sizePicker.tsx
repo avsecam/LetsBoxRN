@@ -1,20 +1,20 @@
 import { useState } from "react"
-import { GestureResponderEvent, Pressable, StyleSheet, Text, View } from "react-native"
+import { GestureResponderEvent, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { productSizes } from "../utils"
 
 interface ButtonProps {
 	sizeName: string,
 	price: number,
-	onPress: (e: GestureResponderEvent) => void,
+	onPress: () => void,
 	isChosen: boolean,
 }
 
 const SizeButton = (props: ButtonProps) => {
 	return (
 		<>
-			<Pressable style={[styles.radioButton, (props.isChosen) ? styles.radioButtonChosen : null]} onPress={props.onPress}>
+			<TouchableOpacity style={[styles.radioButton, (props.isChosen) ? styles.radioButtonChosen : null]} onPress={props.onPress}>
 				<Text style={styles.radioButtonText}>{props.sizeName}</Text>
-			</Pressable>
+			</TouchableOpacity>
 		</>
 	)
 }
@@ -28,7 +28,7 @@ const SizePicker = () => {
 			<SizeButton
 				price={productSizes[i][1]}
 				sizeName={productSizes[i][0]}
-				onPress={(e: GestureResponderEvent) => {
+				onPress={() => {
 					setChosenSize(i)
 				}}
 				isChosen={(chosenSize === i)}
@@ -46,16 +46,21 @@ const SizePicker = () => {
 }
 
 const styles = StyleSheet.create({
-	sizesPicker: {},
+	sizesPicker: {
+		display: "flex",
+		alignItems: "flex-end",
+	},
 	
 	radioButton: {
-		paddingVertical: 5,
+		padding: 10,
+		borderRadius: 10,
 	},
 	radioButtonChosen: {
-		backgroundColor: "cyan",
+		backgroundColor: "green",
 	},
 	radioButtonText: {
-		textAlign: "right",
+		textAlign: "center",
+		fontSize: 15,
 	},
 })
 
