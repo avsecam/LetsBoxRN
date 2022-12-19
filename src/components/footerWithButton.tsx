@@ -1,12 +1,17 @@
-import { Pressable, StyleSheet, Text, View } from "react-native"
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 
-const FooterWithButton = () => {
+interface Props {
+	buttonText: string,
+	onPress?: () => void,
+}
+
+const FooterWithButton = (props: Props) => {
 	return (
 		<>
 			<View style={styles.footer}>
-				<Pressable style={styles.footerBtn}>
-					<Text style={styles.footerBtnText}>Manual Order</Text>
-				</Pressable>
+				<TouchableOpacity style={styles.footerBtn} onPress={props.onPress}>
+					<Text style={styles.footerBtnText}>{props.buttonText}</Text>
+				</TouchableOpacity>
 			</View>
 		</>
 	)
@@ -18,6 +23,7 @@ const styles = StyleSheet.create({
 		height: 80,
 		display: "flex",
 		justifyContent: "center",
+		backgroundColor: "gray",
 	},
 	footerBtn: {
 		borderRadius: 5,

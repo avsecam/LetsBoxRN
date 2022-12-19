@@ -1,30 +1,23 @@
-import { Image, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
+import { NativeStackScreenProps } from "@react-navigation/native-stack"
+import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from "react-native"
+import { NavigatorParams } from "../../App"
+import FooterWithButton from "../components/footerWithButton"
 import Header from "../components/header"
-import { MenuItem } from "../menu/menuUtils"
-import { productSizes } from "../utils"
 import QuantityPicker from "./quantityPicker"
 import SizePicker from "./sizePicker"
 
-interface Props {
-	product: MenuItem,
-}
+type Props = NativeStackScreenProps<NavigatorParams, "Product">
 
-const ProductScreen = () => {
-	let props: MenuItem = {
-		imageUrl: "",
-		name: "Name Name",
-		description: "Description Description"
-	}
-
-
+const ProductScreen = ({route, navigation}: Props) => {
+	console.log(route)
 	return (
 		<>
 			<Header />
 			<ScrollView style={styles.container} contentContainerStyle={{ alignItems: "center" }}>
 				<Image style={styles.imageContainer} source={require("../../assets/food.png")} />
 				<View style={styles.productInfo}>
-					<Text style={styles.productName}>{props.name}</Text>
-					<Text style={styles.productDescription}>{props.description}</Text>
+					<Text style={styles.productName}>{route.params.name}</Text>
+					<Text style={styles.productDescription}>{route.params.description}</Text>
 				</View>
 				<View style={styles.sizesContainer}>
 					<Text style={styles.sizeLabel}>Size</Text>
@@ -34,6 +27,7 @@ const ProductScreen = () => {
 					<QuantityPicker />
 				</KeyboardAvoidingView>
 			</ScrollView>
+			<FooterWithButton buttonText="ADD TO CART" />
 		</>
 	)
 }
@@ -45,6 +39,7 @@ const styles = StyleSheet.create({
 
 	imageContainer: {
 		marginBottom: 20,
+		backgroundColor: "white",
 	},
 
 	productInfo: {

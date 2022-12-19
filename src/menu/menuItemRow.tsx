@@ -1,4 +1,6 @@
-import { Dimensions, Image, StyleSheet, Text, useWindowDimensions, View } from "react-native"
+import { useNavigation } from "@react-navigation/native"
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native"
+import { MenuItem } from "../utils"
 
 interface Props {
 	imageUrl?: string,
@@ -6,20 +8,25 @@ interface Props {
 	description: string,
 }
 
-const MenuItemRow = (menuItem: Props) => {
+const MenuItemRow = (props: Props) => {
+	let navigation = useNavigation()
+
 	return (
 		<>
-			<View style={styles.row}>
-				<Image style={styles.imageContainer} source={(menuItem.imageUrl) ? {uri: menuItem.imageUrl} : require("../../assets/food.png")} />
-				<View style={styles.infoContainer}>
-					<Text style={styles.itemName}>
-						{menuItem.name}
-					</Text>
-					<Text style={styles.itemDescription}>
-						{menuItem.description}
-					</Text>
+			<TouchableOpacity onPress={() => navigation.navigate("Product" as never, props as never)}>
+				<View style={styles.row}>
+					<Image style={styles.imageContainer} source={(props.imageUrl) ? { uri: props.imageUrl } : require("../../assets/food.png")} />
+					<View style={styles.infoContainer}>
+						<Text style={styles.itemName}>
+							{props.name}
+						</Text>
+						<Text style={styles.itemDescription}>
+							{props.description}
+						</Text>
+					</View>
+					<Text style={styles.qtyContainer}>9 in cart</Text>
 				</View>
-			</View>
+			</TouchableOpacity>
 		</>
 	)
 }
@@ -27,26 +34,30 @@ const MenuItemRow = (menuItem: Props) => {
 const styles = StyleSheet.create({
 	row: {
 		paddingVertical: 5,
-		paddingHorizontal: 10,
+		paddingHorizontal: 20,
 		marginVertical: 5,
-		display: "flex",
 		flexDirection: "row",
-		backgroundColor: "red",
 		alignItems: "center",
+		backgroundColor: "red",
 	},
 	imageContainer: {
-		width: 100,
+		flex: 1,
 		height: 100,
-		marginRight: 10,
 	},
 	infoContainer: {
+		marginLeft: 20,
+		flex: 2,
 	},
 	itemName: {
 		fontSize: 20,
 	},
 	itemDescription: {
-		width: "80%",
 	},
+
+	qtyContainer: {
+		flex: 1,
+		textAlign: "right",
+	}
 })
 
 export default MenuItemRow

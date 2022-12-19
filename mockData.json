@@ -20,22 +20,22 @@
 		]
 	},
 	{
-		"groupName": "Rice",
+		"groupName": "Drinks",
 		"groupData": [
 			{
 				"imageUrl": "",
-				"name": "Plain Rice",
-				"description": "Good old regular white rice"
+				"name": "Orange Juice",
+				"description": "Juice"
 			},
 			{
 				"imageUrl": "",
-				"name": "Brown Rice",
-				"description": "Brown rice"
+				"name": "Canned Soda",
+				"description": "Sodie pop"
 			},
 			{
 				"imageUrl": "",
-				"name": "Basmati Rice",
-				"description": "Cool rice"
+				"name": "Water Bottle",
+				"description": "cool water"
 			}
 		]
 	}

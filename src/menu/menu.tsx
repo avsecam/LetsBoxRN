@@ -1,5 +1,4 @@
 import { Pressable, ScrollView, StyleSheet, View } from "react-native"
-import { Text } from "react-native"
 
 import mockData from '../../mockData.json';
 import FooterWithButton from "../components/footerWithButton";
@@ -20,7 +19,7 @@ const MainMenu = () => {
 			<ScrollView>
 				{menuGroups}
 			</ScrollView>
-			<FooterWithButton />
+			<FooterWithButton buttonText="MANUAL ORDER" />
 		</>
 	)
 }

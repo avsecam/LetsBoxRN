@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, View } from "react-native"
 import { Text } from "react-native"
 
 import MenuItemRow from './menuItemRow';
-import { MenuItem } from "./menuUtils";
+import { MenuItem } from "../utils";
 
 interface Props {
 	groupName: string,

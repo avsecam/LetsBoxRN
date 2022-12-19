@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { GestureResponderEvent, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native"
-import { productSizes } from "../utils"
+import { ProductSizeNames, productSizes } from "../utils"
 
 interface ButtonProps {
 	sizeName: string,
@@ -21,14 +21,14 @@ const SizeButton = (props: ButtonProps) => {
 }
 
 const SizePicker = () => {
-	let [chosenSize, setChosenSize] = useState(0)
+	let [chosenSize, setChosenSize] = useState(-1)
 
 	let sizeButtons: Array<JSX.Element> = []
 	for (let i: number = 0; i < productSizes.length; i++) {
 		sizeButtons.push(
 			<SizeButton
 				price={productSizes[i][1]}
-				sizeName={productSizes[i][0]}
+				sizeName={ProductSizeNames[productSizes[i][0]]}
 				onPress={() => {
 					setChosenSize(i)
 				}}
