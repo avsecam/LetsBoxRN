@@ -4,7 +4,7 @@ import MainMenu from './src/menu/menu';
 import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ProductScreen from './src/product/product';
-import { MenuItem } from './src/menu/menuUtils';
+import { MenuItem } from './src/utils';
 
 export type NavigatorParams = {
 	MainMenu: undefined,

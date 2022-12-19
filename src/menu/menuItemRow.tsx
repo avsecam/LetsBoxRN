@@ -9,7 +9,7 @@ interface Props {
 }
 
 const MenuItemRow = (props: Props) => {
-	let navigation = useNavigation()
+	const navigation = useNavigation()
 
 	return (
 		<>

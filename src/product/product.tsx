@@ -1,15 +1,27 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from "react-native"
+import { useState } from "react"
+import { Image, Keyboard, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 import { NavigatorParams } from "../../App"
 import FooterWithButton from "../components/footerWithButton"
 import Header from "../components/header"
-import QuantityPicker from "./quantityPicker"
 import SizePicker from "./sizePicker"
 
 type Props = NativeStackScreenProps<NavigatorParams, "Product">
 
-const ProductScreen = ({route, navigation}: Props) => {
-	console.log(route)
+const ProductScreen = ({ route, navigation }: Props) => {
+	const [quantity, setQuantity] = useState(1)
+	const handleSetQty = (newQuantity: number) => {
+		if (newQuantity < 0 || newQuantity > 99) return
+		setQuantity(newQuantity)
+	}
+	const handleSetQtyInput = (newQuantity: string) => {
+		handleSetQty((isNaN(Number.parseInt(newQuantity))) ? 0 : Number.parseInt(newQuantity))
+	}
+
+	const [keyboardVisibility, setKeyboardVisibility] = useState(false)
+	Keyboard.addListener("keyboardDidHide", () => setKeyboardVisibility(false))
+	Keyboard.addListener("keyboardDidShow", () => setKeyboardVisibility(true))
+
 	return (
 		<>
 			<Header />
@@ -24,21 +36,27 @@ const ProductScreen = ({route, navigation}: Props) => {
 					<SizePicker />
 				</View>
 				<KeyboardAvoidingView behavior="padding">
-					<QuantityPicker />
+					<View style={styles.qtyContainer}>
+						<TouchableOpacity style={[styles.qtyBtn, styles.qtyBtnLeft]} onPress={() => handleSetQty(quantity - 1)}><Text style={styles.qtyBtnText}>-</Text></TouchableOpacity>
+						<TextInput style={styles.qty} value={quantity.toString()} keyboardType="number-pad" onChangeText={(text: string) => handleSetQtyInput(text)} />
+						<TouchableOpacity style={[styles.qtyBtn, styles.qtyBtnRight]} onPress={() => handleSetQty(quantity + 1)}><Text style={styles.qtyBtnText}>+</Text></TouchableOpacity>
+					</View>
 				</KeyboardAvoidingView>
 			</ScrollView>
-			<FooterWithButton buttonText="ADD TO CART" />
+			{(keyboardVisibility) ? null : <FooterWithButton buttonText="ADD TO CART" onPress={() => {}} />}
 		</>
 	)
 }
 
 const styles = StyleSheet.create({
 	container: {
-		padding: 30,
+		paddingHorizontal: 30,
 	},
 
 	imageContainer: {
-		marginBottom: 20,
+		height: 200,
+		width: 200,
+		marginVertical: 20,
 		backgroundColor: "white",
 	},
 
@@ -69,6 +87,38 @@ const styles = StyleSheet.create({
 	},
 	sizeLabel: {
 		fontSize: 25,
+	},
+
+	qtyContainer: {
+		width: "80%",
+		height: 50,
+		display: "flex",
+		flexDirection: "row",
+	},
+	qtyBtn: {
+		flex: 1,
+		backgroundColor: "purple",
+		justifyContent: "center"
+	},
+	qtyBtnText: {
+		fontSize: 40,
+		textAlign: "center",
+	},
+	qtyBtnLeft: {
+		borderTopLeftRadius: 10,
+		borderBottomLeftRadius: 10,
+	},
+	qtyBtnRight: {
+		borderTopRightRadius: 10,
+		borderBottomRightRadius: 10,
+	},
+
+	qty: {
+		flex: 3,
+		backgroundColor: "gray",
+		textAlign: "center",
+		textAlignVertical: "center",
+		fontSize: 30,
 	},
 })
 
