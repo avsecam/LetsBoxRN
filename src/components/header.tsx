@@ -1,12 +1,17 @@
+import { useNavigation } from "@react-navigation/native"
+import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 import { StyleSheet, Text, View } from "react-native"
+import { NavigatorParams } from "../../App"
 
 const Header = () => {
+	const navigation = useNavigation<NativeStackNavigationProp<NavigatorParams>>()
+
 	return (
 		<>
 			<View style={styles.header}>
 				<Text>Brgr</Text>
 				<Text>Logo</Text>
-				<Text>Cart</Text>
+				<Text onPress={() => navigation.navigate("Cart")}>Cart</Text>
 			</View>
 		</>
 	)
