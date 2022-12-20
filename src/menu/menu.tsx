@@ -1,23 +1,23 @@
 import { Pressable, ScrollView, StyleSheet, View } from "react-native"
 
-import mockData from '../../mockData.json';
+import mockData from '../../mockData';
 import FooterWithButton from "../components/footerWithButton";
 import Header from "../components/header";
 import MenuGroup from "./menuGroup";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { NavigatorParams } from "../../App";
 
-const MainMenu = () => {
-	let menuGroups: JSX.Element[] = []
-	for (var i = 0; i < mockData.length; i++) {
-		menuGroups.push(
-			<MenuGroup groupName={mockData[i].groupName} data={mockData[i].groupData} key={i}/>
-		)
-	}
+
+type Props = NativeStackScreenProps<NavigatorParams, "MainMenu">
+
+const MainMenu = ({ route, navigation }: Props) => {
 
 	return (
 		<>
 			<Header />
 			<ScrollView>
-				{menuGroups}
+				<MenuGroup groupName={mockData[0].groupName} data={mockData[0].groupData} />
+				<MenuGroup groupName={mockData[1].groupName} data={mockData[1].groupData} />
 			</ScrollView>
 			<FooterWithButton buttonText="MANUAL ORDER" />
 		</>

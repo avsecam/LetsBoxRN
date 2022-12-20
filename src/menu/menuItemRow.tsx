@@ -1,30 +1,42 @@
 import { useNavigation } from "@react-navigation/native"
+import { NativeStackNavigationProp } from "@react-navigation/native-stack"
+import { useContext } from "react"
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native"
-import { MenuItem } from "../utils"
+import { NavigatorParams, OrderContext } from "../../App"
+import { FinalizedMenuItem, MenuItem } from "../utils"
 
-interface Props {
-	imageUrl?: string,
-	name: string,
-	description: string,
+type Props = {
+	item: MenuItem,
 }
 
 const MenuItemRow = (props: Props) => {
-	const navigation = useNavigation()
+	const { order } = useContext(OrderContext)
+
+	const navigation = useNavigation<NativeStackNavigationProp<NavigatorParams>>()
+
+	const existingItemsInOrder: FinalizedMenuItem[] = order.items.filter(queryItem => queryItem.name === props.item.name)
+	const quantityOfExistingItems = () => {
+		let quantity: number = 0
+		for (var i = 0; i < existingItemsInOrder.length; i++) {
+			quantity += existingItemsInOrder[i].quantity
+		}
+		return quantity
+	}
 
 	return (
 		<>
-			<TouchableOpacity onPress={() => navigation.navigate("Product" as never, props as never)}>
+			<TouchableOpacity onPress={() => navigation.navigate("Product", props)}>
 				<View style={styles.row}>
-					<Image style={styles.imageContainer} source={(props.imageUrl) ? { uri: props.imageUrl } : require("../../assets/food.png")} />
+					<Image style={styles.imageContainer} source={(props.item.imageUrl) ? { uri: props.item.imageUrl } : require("../../assets/food.png")} />
 					<View style={styles.infoContainer}>
 						<Text style={styles.itemName}>
-							{props.name}
+							{props.item.name}
 						</Text>
 						<Text style={styles.itemDescription}>
-							{props.description}
+							{props.item.description}
 						</Text>
 					</View>
-					<Text style={styles.qtyContainer}>9 in cart</Text>
+					<Text style={styles.qtyContainer}>{(existingItemsInOrder.length !== 0) ? `${quantityOfExistingItems()} in cart` : null}</Text>
 				</View>
 			</TouchableOpacity>
 		</>

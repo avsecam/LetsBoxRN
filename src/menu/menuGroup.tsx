@@ -2,11 +2,11 @@ import { FlatList, StyleSheet, View } from "react-native"
 import { Text } from "react-native"
 
 import MenuItemRow from './menuItemRow';
-import { MenuItem } from "../utils";
+import { MenuItem, ProductType } from "../utils";
 
-interface Props {
+type Props = {
 	groupName: string,
-	data?: MenuItem[],
+	data?: MenuItem[]
 }
 
 const MenuGroup = (props: Props) => {
@@ -17,7 +17,7 @@ const MenuGroup = (props: Props) => {
 	let menuItems: JSX.Element[] = []
 	for (var i = 0; i < ((props.data) ? props.data.length : 0); i++) {
 		menuItems.push(
-			<MenuItemRow description={props.data[i].description} name={props.data[i].name} key={i}/>
+			<MenuItemRow item={props.data[i]} key={i}/>
 		)
 	}
 
