@@ -4,8 +4,9 @@ import MainMenu from './src/menu/menu';
 import { DarkTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ProductScreen from './src/product/product';
-import { FinalizedMenuItem, MenuItem, Order } from './src/utils';
+import { FinalizedMenuItem, getMenuGroup, MenuItem, Order } from './src/utils';
 import CartScreen from './src/cart/cart';
+import { Realm } from '@realm/react';
 
 export type NavigatorParams = {
 	MainMenu: undefined,
@@ -22,6 +23,7 @@ export const OrderContext = createContext({
 let Stack = createNativeStackNavigator<NavigatorParams>();
 
 const App: () => ReactNode = () => {
+
 	const [order, setOrder] = useState({ items: [] } as Order)
 
 	const addToOrder = (item: FinalizedMenuItem) => {
