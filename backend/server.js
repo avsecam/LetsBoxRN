@@ -22,27 +22,16 @@ const letsBoxApp = express()
 letsBoxApp.get("/menu-:collection", async (req, res) => {
 	const collectionName = req.params.collection
 
-	return connection
-		.then(async client => { // Check if collection exists
-			return {
-				client: client,
-				collectionExists: await client.db(menuDbName).listCollections().toArray()
-					.then(array => array.find(c => c.name === collectionName))
-					.catch(e => {
-						console.error(e)
-					})
-			}
-		}).then(({ client, collectionExists }) => { // Return data if collection exists
-			if (collectionExists) {
-				return client.db(menuDbName).collection(collectionName).find().toArray()
-			} else {
-				return `Collection named ${collectionName} does not exist!`
-			}
-		}).then(data =>
-			res.json(data)
-		).catch(e => {
-			console.error(e)
-		})
+	const client = await connection
+	const collections = await client.db(menuDbName).listCollections().toArray()
+	const collectionExists = collections.find(c => c.name === collectionName)?.info
+
+	if (collectionExists) {
+		const foundCollection = await client.db(menuDbName).collection(collectionName).find().toArray()
+		return res.json(foundCollection)
+	} else {
+		return res.status(404).send(`Collection ${collectionName} not found!`)
+	}
 })
 
 // Get orders of a user
