@@ -28,6 +28,9 @@ letsBoxApp.get("/menu-:collection", async (req, res) => {
 				client: client,
 				collectionExists: await client.db(menuDbName).listCollections().toArray()
 					.then(array => array.find(c => c.name === collectionName))
+					.catch(e => {
+						console.error(e)
+					})
 			}
 		}).then(({ client, collectionExists }) => { // Return data if collection exists
 			if (collectionExists) {
