@@ -2,7 +2,8 @@ import { useNavigation } from "@react-navigation/native"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 import { useContext } from "react"
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native"
-import { NavigatorParams, OrderContext } from "../../App"
+import { NavigatorParams } from "../../App"
+import { useOrder } from "../order/orderUtils"
 import { FinalizedMenuItem, MenuItem } from "../utils"
 
 type Props = {
@@ -10,17 +11,15 @@ type Props = {
 }
 
 const MenuItemRow = (props: Props) => {
-	const { order } = useContext(OrderContext)
+	const { order } = useOrder()
 
 	const navigation = useNavigation<NativeStackNavigationProp<NavigatorParams>>()
 
-	const existingItemsInOrder: FinalizedMenuItem[] = order.items.filter(queryItem => queryItem.name === props.item.name)
-	const quantityOfExistingItems = () => {
-		let quantity: number = 0
-		for (var i = 0; i < existingItemsInOrder.length; i++) {
-			quantity += existingItemsInOrder[i].quantity
-		}
-		return quantity
+	const existingItemsInOrder: FinalizedMenuItem[] = order.items.filter(item => item.name === props.item.name)
+
+	let quantityOfExistingItems: number = 0
+	for (var i = 0; i < existingItemsInOrder.length; i++) {
+		quantityOfExistingItems += existingItemsInOrder[i].quantity
 	}
 
 	return (
@@ -36,7 +35,7 @@ const MenuItemRow = (props: Props) => {
 							{props.item.description}
 						</Text>
 					</View>
-					<Text style={styles.qtyContainer}>{(existingItemsInOrder.length !== 0) ? `${quantityOfExistingItems()} in cart` : null}</Text>
+					<Text style={styles.qtyContainer}>{(existingItemsInOrder.length !== 0) ? `${quantityOfExistingItems} in cart` : null}</Text>
 				</View>
 			</TouchableOpacity>
 		</>

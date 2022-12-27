@@ -6,15 +6,15 @@ import Header from "../components/header";
 import MenuGroup from "./menuGroup";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { NavigatorParams } from "../../App";
-import { getMenuGroup, MenuItem } from "../utils";
 import { useEffect, useState } from "react";
+import { MenuItem } from "../utils";
 
 
 type Props = NativeStackScreenProps<NavigatorParams, "MainMenu">
 
 const MainMenu = ({ route, navigation }: Props) => {
-	const [bestsellers, setBestsellers] = useState([])
-	const [drinks, setDrinks] = useState([])
+	const [bestsellers, setBestsellers] = useState<Array<MenuItem>>([])
+	const [drinks, setDrinks] = useState<Array<MenuItem>>([])
 
 	useEffect(() => {
 		(async () => {
@@ -28,7 +28,7 @@ const MainMenu = ({ route, navigation }: Props) => {
 		<>
 			<Header />
 			{(bestsellers.length > 0 && drinks.length > 0) ?
-				<ScrollView>
+				<ScrollView style={styles.scrollView}>
 					<MenuGroup groupName="Bestsellers" data={bestsellers} />
 					<MenuGroup groupName="Drinks" data={drinks} />
 				</ScrollView>
@@ -41,7 +41,16 @@ const MainMenu = ({ route, navigation }: Props) => {
 }
 
 const styles = StyleSheet.create({
-
+	scrollView: {
+		paddingTop: 5,
+		marginBottom: 80,
+	}
 })
+
+const getMenuGroup = async (groupName: string) => {
+	return fetch(`https://lets-box-rn.onrender.com/menu-${groupName}`)
+		.then(res => res.json())
+		.then(data => data)
+}
 
 export default MainMenu;

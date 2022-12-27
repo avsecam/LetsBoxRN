@@ -1,9 +1,10 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { useContext, useState } from "react"
+import { useState } from "react"
 import { Alert, Image, Keyboard, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
-import { NavigatorParams, OrderContext } from "../../App"
+import { NavigatorParams } from "../../App"
 import FooterWithButton from "../components/footerWithButton"
 import Header from "../components/header"
+import { useOrder } from "../order/orderUtils"
 import { drinkPrice, FinalizedMenuItem, getTotal, MenuItem, ProductSizeNames, productSizes, ProductType } from "../utils"
 import SizeButton from "./sizeButton"
 
@@ -12,7 +13,9 @@ type Props = NativeStackScreenProps<NavigatorParams, "Product">
 const ProductScreen = ({ route, navigation }: Props) => {
 	const item: MenuItem = route.params.item
 
-	const { order, addToOrder, removeFromOrder } = useContext(OrderContext)
+	const { order, addToOrder, removeFromOrder } = useOrder()
+	
+	const existingItemsInOrder: FinalizedMenuItem[] = order.items.filter(val => val.id === item._id)
 
 	const [chosenSize, setChosenSize] = useState(-1)
 
@@ -33,6 +36,7 @@ const ProductScreen = ({ route, navigation }: Props) => {
 		if (item.type === ProductType.Food && chosenSize === -1) return
 
 		const finalizedMenuItem: FinalizedMenuItem = {
+			id: route.params.item._id,
 			description: route.params.item.description,
 			name: route.params.item.name,
 			quantity: quantity,
@@ -50,6 +54,8 @@ const ProductScreen = ({ route, navigation }: Props) => {
 
 	let sizeButtons: JSX.Element[] = []
 	for (let i: number = 0; i < productSizes.length; i++) {
+		const existingItemInOrderWithSize: FinalizedMenuItem | undefined = existingItemsInOrder.find(val => val.size === productSizes[i][0])
+
 		sizeButtons.push(
 			<SizeButton
 				price={productSizes[i][1]}
@@ -58,6 +64,7 @@ const ProductScreen = ({ route, navigation }: Props) => {
 					setChosenSize(i)
 				}}
 				isChosen={(chosenSize === i)}
+				qtyInOrder={(existingItemInOrderWithSize) ? existingItemInOrderWithSize.quantity : undefined}
 				key={i} />
 		)
 	}
@@ -73,10 +80,7 @@ const ProductScreen = ({ route, navigation }: Props) => {
 				</View>
 				{(item.type === ProductType.Food) ?
 					<View style={styles.sizesContainer}>
-						<Text style={styles.sizeLabel}>Size</Text>
-						<View style={styles.sizesPicker}>
-							{sizeButtons}
-						</View>
+						{sizeButtons}
 					</View> :
 					null}
 				<KeyboardAvoidingView behavior="padding">
@@ -111,7 +115,7 @@ const styles = StyleSheet.create({
 	},
 	productName: {
 		textAlign: "center",
-		fontSize: 40,
+		fontSize: 30,
 	},
 	productDescription: {
 		textAlign: "center"
@@ -125,34 +129,13 @@ const styles = StyleSheet.create({
 		borderColor: "white",
 		width: "100%",
 		display: "flex",
-		flexDirection: "row",
-		alignItems: "center",
 		justifyContent: "space-between",
-		paddingVertical: 15,
-		paddingHorizontal: "10%",
+		padding: 15,
+		alignItems: "stretch",
 		marginBottom: 20,
 	},
 	sizeLabel: {
 		fontSize: 25,
-	},
-	sizesPicker: {
-		alignItems: "flex-end",
-	},
-	radioButton: {
-		flexDirection: "row",
-		padding: 10,
-		borderRadius: 10,
-		justifyContent: "space-between",
-	},
-	radioButtonChosen: {
-		backgroundColor: "green",
-	},
-	radioButtonText: {
-		textAlign: "center",
-		fontSize: 15,
-	},
-	radioButtonPrice: {
-		paddingLeft: 20,
 	},
 
 	// QUANTITY

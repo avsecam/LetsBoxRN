@@ -1,9 +1,3 @@
-export const getMenuGroup = async (groupName: string) => {
-	return fetch(`https://data.mongodb-api.com/app/lets-box-rn-puunt/endpoint/menuGroups?groupName=${groupName}`)
-		.then(res => res.json())
-		.then(data => data)
-}
-
 export const drinkPrice: number = 30
 export const extrasPrice: number = 20
 
@@ -26,6 +20,7 @@ export const productSizes: [ProductSizeNames, number][] = [
 ]
 
 export type MenuItem = {
+	_id: string,
 	imageUrl?: string,
 	name: string,
 	description: string,

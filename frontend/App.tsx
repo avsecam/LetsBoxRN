@@ -5,7 +5,8 @@ import { DarkTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ProductScreen from './src/product/product';
 import { FinalizedMenuItem, MenuItem, Order } from './src/utils';
-import CartScreen from './src/cart/cart';
+import CartScreen from './src/order/order';
+import { OrderProvider } from './src/order/orderUtils';
 
 export type NavigatorParams = {
 	MainMenu: undefined,
@@ -13,32 +14,12 @@ export type NavigatorParams = {
 	Cart: undefined,
 }
 
-export const OrderContext = createContext({
-	order: {} as Order,
-	addToOrder: (item: FinalizedMenuItem) => { },
-	removeFromOrder: (item: FinalizedMenuItem) => { },
-})
-
 let Stack = createNativeStackNavigator<NavigatorParams>();
 
 const App: () => ReactNode = () => {
-
-	const [order, setOrder] = useState({ items: [] } as Order)
-
-
-	const addToOrder = (item: FinalizedMenuItem) => {
-		setOrder({ items: [...order.items, item] })
-	}
-
-	const removeFromOrder = (item: FinalizedMenuItem) => {
-		setOrder(
-			{ items: order.items.filter((queryItem: FinalizedMenuItem) => queryItem.name !== item.name) }
-		)
-	}
-
 	return (
 		<>
-			<OrderContext.Provider value={{ order, addToOrder, removeFromOrder }}>
+			<OrderProvider>
 				<NavigationContainer theme={DarkTheme}>
 					<Stack.Navigator initialRouteName="MainMenu" screenOptions={{ headerShown: false }}>
 						<Stack.Screen name="MainMenu" component={MainMenu} />
@@ -46,7 +27,7 @@ const App: () => ReactNode = () => {
 						<Stack.Screen name="Cart" component={CartScreen} />
 					</Stack.Navigator>
 				</NavigationContainer>
-			</OrderContext.Provider>
+			</OrderProvider>
 		</>
 	)
 }
