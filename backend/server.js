@@ -51,7 +51,16 @@ letsBoxApp.get("/orders-user-:id", (req, res) => {
 })
 
 // Post an order
-letsBoxApp.post("/add-order-user-:id")
+letsBoxApp.post("/add-order-user-:id-:order", async (req, res) => {
+	const userId = req.params.id
+	const order = JSON.parse(req.params.order)
+
+	const client = await connection
+	const collection = await client.db(userDbName).collection("orders")
+	collection.insertOne(order)
+	.then(result => res.send("success " + order))
+	.catch(err => res.send(500))
+})
 
 letsBoxApp.use(cors())
 
