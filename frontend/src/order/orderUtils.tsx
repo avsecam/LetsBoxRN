@@ -52,6 +52,7 @@ export const OrderProvider = ({ children }: OrderProviderProps) => {
 				body: JSON.stringify(order)
 			}
 		)
+			.then(() => setOrder({ items: [] })) // Clear order
 			.catch(() => info = "Error posting order.")
 		Alert.alert("Order Confirmed", info)
 	}
