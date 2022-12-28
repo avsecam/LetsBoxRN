@@ -6,7 +6,7 @@ import { FinalizedMenuItem, getTotal, ProductSizeNames } from "../utils";
 import { useOrder } from "./orderUtils";
 
 const CartScreen = () => {
-	const { order } = useOrder()
+	const { order, confirmOrder } = useOrder()
 
 	return (
 		<>
@@ -23,7 +23,7 @@ const CartScreen = () => {
 					</View>
 				</View>
 			)}
-			<FooterWithButton buttonText="CONFIRM ORDER" onPress={() => {Alert.alert("Order Confirmation", "Your order is on its way!")}} />
+			<FooterWithButton buttonText="CONFIRM ORDER" onPress={() => confirmOrder()} />
 		</>
 	)
 }

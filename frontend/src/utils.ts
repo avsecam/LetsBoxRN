@@ -1,3 +1,5 @@
+export const userId: number = 0 // Temp
+
 export const drinkPrice: number = 30
 export const extrasPrice: number = 20
 
@@ -42,7 +44,6 @@ export type FinalizedMenuItem = {
 }
 
 export type Order = {
-	id?: string,
 	items: FinalizedMenuItem[],
 }
 
