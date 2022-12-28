@@ -17,6 +17,11 @@ const connectToClient = async () => {
 const connection = connectToClient()
 
 const letsBoxApp = express()
+letsBoxApp.use(express.static(__dirname + "/public"))
+
+letsBoxApp.get("/", (req, res) => {
+	res.render("index")
+})
 
 // Get any collection in menu-items
 letsBoxApp.get("/menu-:collection", async (req, res) => {
