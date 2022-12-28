@@ -58,8 +58,14 @@ letsBoxApp.post("/add-order-user-:id-:order", async (req, res) => {
 	const client = await connection
 	const collection = await client.db(userDbName).collection("orders")
 	collection.insertOne(order)
-	.then(() => console.log("success. " + order))
-	.catch(() => console.error("error posting order.", 500))
+	.then(() => {
+		res.send("Order posted!")
+		console.log("success. " + order)
+	})
+	.catch(() => {
+		res.status(500).send("Error posting order.")
+		console.error("error posting order.")
+	})
 })
 
 letsBoxApp.use(cors())

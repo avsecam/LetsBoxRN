@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react"
+import { Alert } from "react-native"
 import { Order, FinalizedMenuItem, userId } from "../utils"
 
 export const OrderContext = createContext({
@@ -41,7 +42,8 @@ export const OrderProvider = ({ children }: OrderProviderProps) => {
 
 	const confirmOrder = async () => {
 		const stringifiedOrder = JSON.stringify(order)
-		await fetch(`https://lets-box-rn.onrender.com/add-order-user-${userId}-${stringifiedOrder}`)
+		await fetch(`https://lets-box-rn.onrender.com/add-order-user-${userId.toString()}-${stringifiedOrder}`)
+		Alert.alert("Order Confirmed", "Your order is on its way!")
 	}
 
 	return (
