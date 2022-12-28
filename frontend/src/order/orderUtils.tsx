@@ -45,9 +45,15 @@ export const OrderProvider = ({ children }: OrderProviderProps) => {
 		await fetch(`https://lets-box-rn.onrender.com/add-order-user-${userId.toString()}`,
 			{
 				method: "POST",
+				headers: {
+					"Accept": "application/json",
+					"Content-Type": "application/json",
+				},
 				body: JSON.stringify(order)
 			}
-		).catch(() => info = "Error posting order.")
+		)
+			.then(res => console.log(res))
+			.catch(() => info = "Error posting order.")
 		Alert.alert("Order Confirmed", info)
 	}
 

@@ -18,6 +18,8 @@ const connection = connectToClient()
 
 const letsBoxApp = express()
 letsBoxApp.use(express.static(__dirname + "/public"))
+letsBoxApp.use(express.json())
+letsBoxApp.use(express.urlencoded({ extended: true }))
 
 letsBoxApp.get("/", (req, res) => {
 	res.render("index")
@@ -52,7 +54,6 @@ letsBoxApp.get("/orders-user-:id", (req, res) => {
 
 // Post an order
 letsBoxApp.post("/add-order-user-:id", async (req, res) => {
-	console.log(req.body);
 	const userId = req.params.id
 	const order = JSON.parse(req.body)
 
