@@ -54,9 +54,8 @@ letsBoxApp.get("/orders-user-:id", (req, res) => {
 
 // Post an order
 letsBoxApp.post("/add-order-user-:id", async (req, res) => {
-	console.log(req.body)
 	const userId = req.params.id
-	const order = JSON.parse(req.body)
+	const order = req.body
 
 	const client = await connection
 	const collection = await client.db(userDbName).collection("orders")
