@@ -6,7 +6,8 @@ import { MenuItem, ProductType } from "../utils";
 
 type Props = {
 	groupName: string,
-	data?: MenuItem[]
+	data?: MenuItem[],
+	extraStyle?: {},
 }
 
 const MenuGroup = (props: Props) => {
@@ -17,14 +18,16 @@ const MenuGroup = (props: Props) => {
 	let menuItems: JSX.Element[] = []
 	for (var i = 0; i < ((props.data) ? props.data.length : 0); i++) {
 		menuItems.push(
-			<MenuItemRow item={props.data[i]} key={i}/>
+			<MenuItemRow item={props.data[i]} key={i} />
 		)
 	}
 
 	return (
 		<>
-			{(props.groupName) ? <Text style={styles.title}>{props.groupName}</Text> : null}
-			{menuItems}
+			<View style={props.extraStyle}>
+				{(props.groupName) ? <Text style={styles.title}>{props.groupName}</Text> : null}
+				{menuItems}
+			</View>
 		</>
 	)
 }

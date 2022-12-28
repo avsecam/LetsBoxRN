@@ -36,8 +36,9 @@ export type FinalizedMenuItem = {
 	imageUrl?: string,
 	name: string,
 	description: string,
-	size?: ProductSizeNames,
+	size: ProductSizeNames,
 	quantity: number,
+	type: ProductType,
 }
 
 export type Order = {
@@ -45,7 +46,7 @@ export type Order = {
 	items: FinalizedMenuItem[],
 }
 
-export const getTotal = (item: MenuItem, quantity: number, size: ProductSizeNames) => {
+export const getTotal = (item: MenuItem | FinalizedMenuItem, quantity: number, size: ProductSizeNames) => {
 	switch (item.type) {
 		case ProductType.Food:
 			if (size < 0) return 0

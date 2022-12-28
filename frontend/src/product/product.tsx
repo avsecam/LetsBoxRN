@@ -40,7 +40,8 @@ const ProductScreen = ({ route, navigation }: Props) => {
 			description: route.params.item.description,
 			name: route.params.item.name,
 			quantity: quantity,
-			size: (item.type === ProductType.Food) ? chosenSize : undefined,
+			type: item.type,
+			size: (item.type === ProductType.Food) ? chosenSize : -1,
 		}
 
 		if (quantity > 0) {

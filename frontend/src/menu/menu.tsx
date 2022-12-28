@@ -30,7 +30,7 @@ const MainMenu = ({ route, navigation }: Props) => {
 			{(bestsellers.length > 0 && drinks.length > 0) ?
 				<ScrollView style={styles.scrollView}>
 					<MenuGroup groupName="Bestsellers" data={bestsellers} />
-					<MenuGroup groupName="Drinks" data={drinks} />
+					<MenuGroup groupName="Drinks" data={drinks} extraStyle={{marginBottom: 10}}/>
 				</ScrollView>
 				:
 				<Text>Loading...</Text>
