@@ -41,9 +41,14 @@ export const OrderProvider = ({ children }: OrderProviderProps) => {
 	}
 
 	const confirmOrder = async () => {
-		const stringifiedOrder = JSON.stringify(order)
-		await fetch(`https://lets-box-rn.onrender.com/add-order-user-${userId.toString()}-${stringifiedOrder}`)
-		Alert.alert("Order Confirmed", "Your order is on its way!")
+		let info: string = "Your order is on its way!"
+		await fetch(`https://lets-box-rn.onrender.com/add-order-user-${userId.toString()}`,
+			{
+				method: "POST",
+				body: JSON.stringify(order)
+			}
+		).catch(() => info = "Error posting order.")
+		Alert.alert("Order Confirmed", info)
 	}
 
 	return (

@@ -52,6 +52,7 @@ letsBoxApp.get("/orders-user-:id", (req, res) => {
 
 // Post an order
 letsBoxApp.post("/add-order-user-:id", async (req, res) => {
+	console.log(req.body);
 	const userId = req.params.id
 	const order = JSON.parse(req.body)
 
@@ -60,7 +61,7 @@ letsBoxApp.post("/add-order-user-:id", async (req, res) => {
 	collection.insertOne(order)
 	.then(() => {
 		res.send("Order posted!")
-		console.log("success. " + order)
+		console.log("success!")
 	})
 	.catch(() => {
 		res.status(500).send("Error posting order.")
