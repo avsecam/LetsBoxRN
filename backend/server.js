@@ -1,11 +1,11 @@
 const PORT = 27017
 const express = require("express")
 const cors = require("cors")
+require("dotenv").config()
 
 const { MongoClient } = require("mongodb")
 
-const appId = "lets-box-rn-puunt"
-const appUri = "mongodb+srv://admin:admin@lets-box-rn.bhd4d26.mongodb.net/?retryWrites=true&w=majority"
+const appUri = process.env.APP_URI
 
 const menuDbName = "menu-items"
 const userDbName = "user-data"
