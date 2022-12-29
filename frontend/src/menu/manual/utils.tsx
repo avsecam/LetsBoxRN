@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { MenuItem } from "../../utils";
 
 export enum IngredientTypes {
@@ -25,6 +25,11 @@ type OrderProviderProps = { children: JSX.Element }
 export const ManualOrderProvider = ({ children }: OrderProviderProps) => {
 	const [choices, setChoices] = useState<ManualOrder>({ [IngredientTypes.Toppings]: [] })
 
+	// Log changes to choices
+	// useEffect(() => {
+	// 	console.log(choices)
+	// }, [choices])
+
 	// Change choice if different choice
 	const changeRice = (choice: MenuItem) => {
 		if (choices[IngredientTypes.Rice]?._id !== choice._id) {
@@ -33,7 +38,6 @@ export const ManualOrderProvider = ({ children }: OrderProviderProps) => {
 	}
 
 	const changeMain = (choice: MenuItem) => {
-		console.log(choice)
 		if (!choices[IngredientTypes.Mains] || (choices[IngredientTypes.Mains]?._id !== choice._id)) {
 			setChoices({ ...choices, [IngredientTypes.Mains]: choice })
 		}

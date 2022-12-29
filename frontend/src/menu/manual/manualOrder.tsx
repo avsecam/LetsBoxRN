@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Text, TouchableOpacity, View } from "react-native"
 import Header from "../../components/header"
-import { getMenuGroup, MenuItem } from "../../utils"
+import { extrasPrice, getMenuGroup, MenuItem } from "../../utils"
 import { IngredientTypes, ManualOrderProvider, useManualOrder } from "./utils"
 
 type ManualOrderItems = {
@@ -15,8 +15,6 @@ type ManualOrderItems = {
 export const ManualOrderScreen = () => {
 	const [items, setItems] = useState<ManualOrderItems>({}) // Contains all manual order menu items
 
-	const { choices, changeMain, changeRice, changeToppings } = useManualOrder()
-
 	useEffect(() => {
 		(async () => {
 			const rice = await getMenuGroup("manual-rice")
@@ -29,10 +27,6 @@ export const ManualOrderScreen = () => {
 		})()
 	}, [])
 
-	useEffect(() => {
-		console.log(choices)
-	}, [choices])
-
 	return (
 		<>
 			<ManualOrderProvider>
@@ -42,6 +36,10 @@ export const ManualOrderScreen = () => {
 						<MenuGroup groupName={IngredientTypes.Rice} data={items[IngredientTypes.Rice] ?? []} />
 						<MenuGroup groupName={IngredientTypes.Mains} data={items[IngredientTypes.Mains] ?? []} />
 						<MenuGroup groupName={IngredientTypes.Toppings} data={items[IngredientTypes.Toppings] ?? []} multiChoice={true} />
+					</View>
+					<View>
+						<Text>Extra toppings P{extrasPrice}</Text>
+						<Text></Text>
 					</View>
 				</View>
 			</ManualOrderProvider>
