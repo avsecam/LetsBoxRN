@@ -37,7 +37,7 @@ const ProductScreen = ({ route, navigation }: Props) => {
 
 		const finalizedMenuItem: FinalizedMenuItem = {
 			id: route.params.item._id,
-			description: route.params.item.description,
+			description: (route.params.item.description) ? route.params.item.description : "",
 			name: route.params.item.name,
 			quantity: quantity,
 			type: item.type,

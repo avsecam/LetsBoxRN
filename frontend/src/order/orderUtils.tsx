@@ -65,5 +65,3 @@ export const OrderProvider = ({ children }: OrderProviderProps) => {
 		</>
 	)
 }
-
-export const addToCart = () => { }

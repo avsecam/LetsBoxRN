@@ -1,6 +1,5 @@
 import { useNavigation } from "@react-navigation/native"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"
-import { useContext } from "react"
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native"
 import { NavigatorParams } from "../../App"
 import { useOrder } from "../order/orderUtils"
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
 	row: {
 		paddingVertical: 5,
 		paddingHorizontal: 20,
-		marginVertical: 5,
+		marginTop: 10,
 		flexDirection: "row",
 		alignItems: "center",
 		backgroundColor: "red",

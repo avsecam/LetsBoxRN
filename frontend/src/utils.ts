@@ -3,6 +3,8 @@ export const userId: number = 0 // Temp
 export const drinkPrice: number = 30
 export const extrasPrice: number = 20
 
+export const manualOrderName: string = "Manual Order"
+
 
 export enum ProductType {
 	"Food",
@@ -25,7 +27,7 @@ export type MenuItem = {
 	_id: string,
 	imageUrl?: string,
 	name: string,
-	description: string,
+	description?: string,
 	type: ProductType
 }
 
@@ -55,4 +57,11 @@ export const getTotal = (item: MenuItem | FinalizedMenuItem, quantity: number, s
 		case ProductType.Drink:
 			return quantity * drinkPrice
 	}
+}
+
+export const getMenuGroup = async (groupName: string) => {
+	return fetch(`https://lets-box-rn.onrender.com/menu-${groupName}`)
+		.then(res => res.json())
+		.catch(err => console.error(err))
+
 }
