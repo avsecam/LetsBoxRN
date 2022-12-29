@@ -1,20 +1,21 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
+import { Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 
-import mockData from '../../mockData';
 import FooterWithButton from "../components/footerWithButton";
 import Header from "../components/header";
 import MenuGroup from "./menuGroup";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
 import { NavigatorParams } from "../../App";
 import { useEffect, useState } from "react";
-import { MenuItem } from "../utils";
+import { getMenuGroup, MenuItem } from "../utils";
+import { useNavigation } from "@react-navigation/native";
 
 
 type Props = NativeStackScreenProps<NavigatorParams, "MainMenu">
 
-const MainMenu = ({ route, navigation }: Props) => {
+const MainMenu = ({ route }: Props) => {
 	const [bestsellers, setBestsellers] = useState<Array<MenuItem>>([])
 	const [drinks, setDrinks] = useState<Array<MenuItem>>([])
+	const navigation = useNavigation<NativeStackNavigationProp<NavigatorParams>>()
 
 	useEffect(() => {
 		(async () => {
@@ -30,12 +31,19 @@ const MainMenu = ({ route, navigation }: Props) => {
 			{(bestsellers.length > 0 && drinks.length > 0) ?
 				<ScrollView style={styles.scrollView}>
 					<MenuGroup groupName="Bestsellers" data={bestsellers} />
-					<MenuGroup groupName="Drinks" data={drinks} extraStyle={{marginBottom: 10}}/>
+					<MenuGroup groupName="Drinks" data={drinks} extraStyle={{ marginBottom: 10 }} />
+					<View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", marginHorizontal: 20 }}>
+						<View style={{ flex: 1, height: StyleSheet.hairlineWidth, backgroundColor: "white" }} />
+						<Text style={{ width: "20%", textAlign: "center" }}>OR</Text>
+						<View style={{ flex: 1, height: StyleSheet.hairlineWidth, backgroundColor: "white" }} />
+					</View>
+					<FooterWithButton buttonText="MANUAL ORDER" onPress={() => navigation.navigate("Manual")} extraStyle={{
+						marginVertical: 10,
+					}}/>
 				</ScrollView>
 				:
 				<Text>Loading...</Text>
 			}
-			<FooterWithButton buttonText="MANUAL ORDER" />
 		</>
 	)
 }
@@ -43,14 +51,7 @@ const MainMenu = ({ route, navigation }: Props) => {
 const styles = StyleSheet.create({
 	scrollView: {
 		paddingTop: 5,
-		marginBottom: 80,
 	}
 })
-
-const getMenuGroup = async (groupName: string) => {
-	return fetch(`https://lets-box-rn.onrender.com/menu-${groupName}`)
-		.then(res => res.json())
-		.then(data => data)
-}
 
 export default MainMenu;
