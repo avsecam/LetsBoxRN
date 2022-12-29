@@ -2,12 +2,12 @@ import { useEffect, useState } from "react"
 import { Text, TouchableOpacity, View } from "react-native"
 import Header from "../../components/header"
 import { getMenuGroup, MenuItem } from "../../utils"
-import { ManualOrderProvider, useManualOrder } from "./utils"
+import { IngredientTypes, ManualOrderProvider, useManualOrder } from "./utils"
 
 type ManualOrderItems = {
-	rice?: MenuItem[],
-	mains?: MenuItem[],
-	toppings?: MenuItem[],
+	[IngredientTypes.Rice]?: MenuItem[],
+	[IngredientTypes.Mains]?: MenuItem[],
+	[IngredientTypes.Toppings]?: MenuItem[],
 }
 
 
@@ -23,11 +23,15 @@ export const ManualOrderScreen = () => {
 			const mains = await getMenuGroup("manual-main")
 			const toppings = await getMenuGroup("manual-toppings")
 
-			const newItems = { rice, mains, toppings }
+			const newItems = { [IngredientTypes.Rice]: rice, [IngredientTypes.Mains]: mains, [IngredientTypes.Toppings]: toppings }
 
 			setItems(newItems)
 		})()
 	}, [])
+
+	useEffect(() => {
+		console.log(choices)
+	}, [choices])
 
 	return (
 		<>
@@ -35,9 +39,9 @@ export const ManualOrderScreen = () => {
 				<View>
 					<Header />
 					<View>
-						<MenuGroup groupName="Rice" data={items.rice} orderSetter={changeRice}/>
-						<MenuGroup groupName="Mains" data={items.mains} orderSetter={changeMain} />
-						<MenuGroup groupName="Toppings" data={items.toppings} multiChoice={true} orderSetter={changeToppings} />
+						<MenuGroup groupName={IngredientTypes.Rice} data={items[IngredientTypes.Rice] ?? []} />
+						<MenuGroup groupName={IngredientTypes.Mains} data={items[IngredientTypes.Mains] ?? []} />
+						<MenuGroup groupName={IngredientTypes.Toppings} data={items[IngredientTypes.Toppings] ?? []} multiChoice={true} />
 					</View>
 				</View>
 			</ManualOrderProvider>
@@ -46,27 +50,22 @@ export const ManualOrderScreen = () => {
 }
 
 type GroupProps = {
-	groupName: string,
-	data?: MenuItem[],
+	groupName: IngredientTypes,
+	data: MenuItem[],
 	multiChoice?: boolean,
-	orderSetter: (item: MenuItem) => void,
 }
 const MenuGroup = (props: GroupProps) => {
-	if (!props.data) {
-		props.data = []
-	}
-
 	let menuItems: JSX.Element[] = []
-	for (var i = 0; i < ((props.data) ? props.data.length : 0); i++) {
+	for (var i = 0; i < props.data.length; i++) {
 		menuItems.push(
-			<MenuItemRow item={props.data[i]} />
+			<MenuItemRow item={props.data[i]} type={props.groupName} key={i}/>
 		)
 	}
 
 	return (
 		<>
 			<View style={{ width: "100%", marginTop: 10 }}>
-				<Text style={{ textAlign: "center", fontSize: 20, marginBottom: 10 }}>{props.groupName}</Text>
+				<Text style={{ textAlign: "center", fontSize: 20, marginBottom: 10 }}>{IngredientTypes[props.groupName]}</Text>
 				<View style={{ flexDirection: "row", flexWrap: "wrap" }}>
 					{menuItems}
 				</View>
@@ -75,16 +74,32 @@ const MenuGroup = (props: GroupProps) => {
 	)
 }
 
-type MenuItemRowProps = {
+type ItemProps = {
 	item: MenuItem,
-	onPress?: () => void,
-	isChosen?: boolean,
+	type: IngredientTypes,
 }
-const MenuItemRow = (props: MenuItemRowProps) => {
+const MenuItemRow = (props: ItemProps) => {
+	const { isInOrder, changeMain, changeRice, changeToppings } = useManualOrder()
+
+	let orderSetter: Function
+	switch(props.type) {
+		case IngredientTypes.Rice:
+			orderSetter = changeRice
+			break
+		case IngredientTypes.Mains:
+			orderSetter = changeMain
+			break
+		case IngredientTypes.Toppings:
+			orderSetter = changeToppings
+			break
+		default:
+			break
+	}
+
 	return (
 		<>
-			<TouchableOpacity onPress={props.onPress} style={{ width: "50%" }}>
-				<Text style={{ textAlign: "center", padding: 10, backgroundColor: (props.isChosen) ? "darkgreen" : "darkblue" }}>{props.item.name}</Text>
+			<TouchableOpacity onPress={() => orderSetter(props.item)} style={{ width: "50%" }}>
+				<Text style={{ textAlign: "center", padding: 10, backgroundColor: (isInOrder(props.item, props.type)) ? "darkgreen" : "darkblue" }}>{props.item.name}</Text>
 			</TouchableOpacity>
 		</>
 	)
