@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { MenuItem } from "../../utils";
+import { createContext, useEffect, useState } from "react";
+import { Alert } from "react-native";
+import { extrasPrice, MenuItem, FinalizedMenuItem, manualOrderName, ProductType, BASE_URL } from "../../utils";
 
 export enum IngredientTypes {
 	"Rice", "Mains", "Toppings"
@@ -11,17 +12,19 @@ type ManualOrder = {
 	[IngredientTypes.Toppings]: MenuItem[],
 }
 
-const ManualOrderContext = createContext({
-	choices: {} as ManualOrder,
-	changeRice: (choice: MenuItem) => { },
-	changeMain: (choice: MenuItem) => { },
-	changeToppings: (choice: MenuItem) => { },
-	isInOrder: (item: MenuItem, category: IngredientTypes) => Boolean(),
-})
+type ManualOrderContext = {
+	choices: ManualOrder,
+	changeRice: (choice: MenuItem) => void,
+	changeMain: (choice: MenuItem) => void,
+	changeToppings: (choice: MenuItem) => void,
+	isInOrder: (item: MenuItem, category: IngredientTypes) => boolean,
+	getExtraPrice: () => number,
+	createMenuItem: () => MenuItem,
+}
 
-export const useManualOrder = () => useContext(ManualOrderContext)
+export const ManualOrderContext = createContext({} as ManualOrderContext)
 
-type OrderProviderProps = { children: JSX.Element }
+type OrderProviderProps = { children: JSX.Element[] | JSX.Element }
 export const ManualOrderProvider = ({ children }: OrderProviderProps) => {
 	const [choices, setChoices] = useState<ManualOrder>({ [IngredientTypes.Toppings]: [] })
 
@@ -61,9 +64,42 @@ export const ManualOrderProvider = ({ children }: OrderProviderProps) => {
 		}
 	}
 
+	const getExtraPrice = () => {
+		return choices[IngredientTypes.Toppings].length * extrasPrice
+	}
+
+	const createMenuItem = () => {
+		let description: string = `${choices[IngredientTypes.Rice]?.name}, ${choices[IngredientTypes.Mains]?.name}, `
+
+		if (choices[IngredientTypes.Toppings].length === 1) {
+			description += `and ${choices[IngredientTypes.Toppings][0].name}`
+		} else {
+			choices[IngredientTypes.Toppings].forEach((value, index) => {
+				if (index >= choices[IngredientTypes.Toppings].length) {
+					description += `and `
+				}
+				description += `, ${value.name}`
+			})
+		}
+
+		let id: string = ""
+		fetch(`${BASE_URL}newId`)
+			.then(res => console.log(res))
+			.catch(err => console.error(err))
+
+		let menuItem: MenuItem = {
+			_id: id,
+			name: manualOrderName,
+			description,
+			type: ProductType.Food,
+		}
+
+		return menuItem
+	}
+
 	return (
 		<>
-			<ManualOrderContext.Provider value={{ choices, changeRice, changeMain, changeToppings, isInOrder }}>
+			<ManualOrderContext.Provider value={{ choices, changeRice, changeMain, changeToppings, isInOrder, getExtraPrice, createMenuItem }}>
 				{children}
 			</ManualOrderContext.Provider>
 		</>

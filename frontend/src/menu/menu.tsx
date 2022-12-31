@@ -37,7 +37,7 @@ const MainMenu = ({ route }: Props) => {
 						<Text style={{ width: "20%", textAlign: "center" }}>OR</Text>
 						<View style={{ flex: 1, height: StyleSheet.hairlineWidth, backgroundColor: "white" }} />
 					</View>
-					<FooterWithButton buttonText="MANUAL ORDER" onPress={() => navigation.navigate("Manual")} extraStyle={{
+					<FooterWithButton buttonText="MANUAL ORDER" onPress={() => navigation.navigate("Manual1")} extraStyle={{
 						marginVertical: 10,
 					}}/>
 				</ScrollView>
