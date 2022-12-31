@@ -1,8 +1,20 @@
-import { useEffect, useState } from "react"
-import { Text, TouchableOpacity, View } from "react-native"
+import { useState, useContext, useEffect } from "react"
+import { Alert, View, Text, TouchableOpacity } from "react-native"
+import FooterWithButton from "../../components/footerWithButton"
 import Header from "../../components/header"
 import { extrasPrice, getMenuGroup, MenuItem } from "../../utils"
-import { IngredientTypes, ManualOrderProvider, useManualOrder } from "./utils"
+import { IngredientTypes, ManualOrderContext, ManualOrderProvider } from "./utils"
+
+export const ManualOrderScreen = () => {
+	return (
+		<>
+			<ManualOrderProvider>
+				<ManualOrderContainer />
+			</ManualOrderProvider>
+		</>
+	)
+}
+
 
 type ManualOrderItems = {
 	[IngredientTypes.Rice]?: MenuItem[],
@@ -10,10 +22,9 @@ type ManualOrderItems = {
 	[IngredientTypes.Toppings]?: MenuItem[],
 }
 
-
-
-export const ManualOrderScreen = () => {
+export const ManualOrderContainer = () => {
 	const [items, setItems] = useState<ManualOrderItems>({}) // Contains all manual order menu items
+	const { getExtraPrice, choices, createMenuItem } = useContext(ManualOrderContext)
 
 	useEffect(() => {
 		(async () => {
@@ -27,22 +38,32 @@ export const ManualOrderScreen = () => {
 		})()
 	}, [])
 
+	const handleNext = () => {
+		if (choices[IngredientTypes.Rice] === undefined
+			|| choices[IngredientTypes.Mains] === undefined
+			|| choices[IngredientTypes.Toppings].length < 1) {
+			Alert.alert("Please complete your order!")
+			return
+		}
+
+		console.log(createMenuItem())
+	}
+
 	return (
 		<>
-			<ManualOrderProvider>
+			<View>
+				<Header />
 				<View>
-					<Header />
-					<View>
-						<MenuGroup groupName={IngredientTypes.Rice} data={items[IngredientTypes.Rice] ?? []} />
-						<MenuGroup groupName={IngredientTypes.Mains} data={items[IngredientTypes.Mains] ?? []} />
-						<MenuGroup groupName={IngredientTypes.Toppings} data={items[IngredientTypes.Toppings] ?? []} multiChoice={true} />
-					</View>
-					<View>
-						<Text>Extra toppings P{extrasPrice}</Text>
-						<Text></Text>
-					</View>
+					<MenuGroup groupName={IngredientTypes.Rice} data={items[IngredientTypes.Rice] ?? []} />
+					<MenuGroup groupName={IngredientTypes.Mains} data={items[IngredientTypes.Mains] ?? []} />
+					<MenuGroup groupName={IngredientTypes.Toppings} data={items[IngredientTypes.Toppings] ?? []} />
 				</View>
-			</ManualOrderProvider>
+				<View>
+					<Text>Extra toppings P{extrasPrice}</Text>
+					<Text>Extra price: P{`${getExtraPrice()}`}</Text>
+				</View>
+				<FooterWithButton buttonText="ADD TO ORDER" onPress={handleNext} />
+			</View>
 		</>
 	)
 }
@@ -50,13 +71,12 @@ export const ManualOrderScreen = () => {
 type GroupProps = {
 	groupName: IngredientTypes,
 	data: MenuItem[],
-	multiChoice?: boolean,
 }
 const MenuGroup = (props: GroupProps) => {
 	let menuItems: JSX.Element[] = []
 	for (var i = 0; i < props.data.length; i++) {
 		menuItems.push(
-			<MenuItemRow item={props.data[i]} type={props.groupName} key={i}/>
+			<MenuItemRow item={props.data[i]} type={props.groupName} key={i} />
 		)
 	}
 
@@ -77,10 +97,10 @@ type ItemProps = {
 	type: IngredientTypes,
 }
 const MenuItemRow = (props: ItemProps) => {
-	const { isInOrder, changeMain, changeRice, changeToppings } = useManualOrder()
+	const { isInOrder, changeMain, changeRice, changeToppings } = useContext(ManualOrderContext)
 
 	let orderSetter: Function
-	switch(props.type) {
+	switch (props.type) {
 		case IngredientTypes.Rice:
 			orderSetter = changeRice
 			break

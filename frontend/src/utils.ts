@@ -1,3 +1,6 @@
+
+export const BASE_URL = "https://lets-box-rn.onrender.com/"
+
 export const userId: number = 0 // Temp
 
 export const drinkPrice: number = 30
@@ -60,7 +63,7 @@ export const getTotal = (item: MenuItem | FinalizedMenuItem, quantity: number, s
 }
 
 export const getMenuGroup = async (groupName: string) => {
-	return fetch(`https://lets-box-rn.onrender.com/menu-${groupName}`)
+	return fetch(`${BASE_URL}menu-${groupName}`)
 		.then(res => res.json())
 		.catch(err => console.error(err))
 

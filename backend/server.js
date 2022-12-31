@@ -71,7 +71,7 @@ letsBoxApp.post("/add-order-user-:id", async (req, res) => {
 })
 
 letsBoxApp.get("/newId", (req, res) => {
-	res.json(new ObjectId().toString())
+	return res.json(new ObjectId().toString())
 })
 
 letsBoxApp.use(cors())
