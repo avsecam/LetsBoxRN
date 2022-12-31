@@ -22,7 +22,7 @@ type ManualOrderItems = {
 	[IngredientTypes.Toppings]?: MenuItem[],
 }
 
-export const ManualOrderContainer = () => {
+const ManualOrderContainer = () => {
 	const [items, setItems] = useState<ManualOrderItems>({}) // Contains all manual order menu items
 	const { getExtraPrice, choices, createMenuItem } = useContext(ManualOrderContext)
 

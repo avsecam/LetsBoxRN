@@ -14,8 +14,6 @@ export const SizeAndQtyScreen = ({ }: Props) => {
 
 	let sizeButtons: JSX.Element[] = []
 	for (let i: number = 0; i < productSizes.length; i++) {
-		const existingItemInOrderWithSize: FinalizedMenuItem | undefined = existingItemsInOrder.find(val => val.size === productSizes[i][0])
-
 		sizeButtons.push(
 			<SizeButton
 				price={productSizes[i][1]}
@@ -24,7 +22,6 @@ export const SizeAndQtyScreen = ({ }: Props) => {
 					setChosenSize(i)
 				}}
 				isChosen={(chosenSize === i)}
-				qtyInOrder={(existingItemInOrderWithSize) ? existingItemInOrderWithSize.quantity : undefined}
 				key={i} />
 		)
 	}

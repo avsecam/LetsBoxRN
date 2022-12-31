@@ -69,22 +69,23 @@ export const ManualOrderProvider = ({ children }: OrderProviderProps) => {
 	}
 
 	const createMenuItem = () => {
-		let description: string = `${choices[IngredientTypes.Rice]?.name}, ${choices[IngredientTypes.Mains]?.name}, `
+		let description: string = `${choices[IngredientTypes.Rice]?.name} Rice, ${choices[IngredientTypes.Mains]?.name},`
 
 		if (choices[IngredientTypes.Toppings].length === 1) {
-			description += `and ${choices[IngredientTypes.Toppings][0].name}`
+			description += ` and ${choices[IngredientTypes.Toppings][0].name}`
 		} else {
 			choices[IngredientTypes.Toppings].forEach((value, index) => {
-				if (index >= choices[IngredientTypes.Toppings].length) {
-					description += `and `
+				if (index >= choices[IngredientTypes.Toppings].length - 1) {
+					description += ` and ${value.name}`
+					return
 				}
-				description += `, ${value.name}`
+				description += ` ${value.name},`
 			})
 		}
 
 		let id: string = ""
 		fetch(`${BASE_URL}newId`)
-			.then(res => console.log(res))
+			// .then(res => console.log(res))
 			.catch(err => console.error(err))
 
 		let menuItem: MenuItem = {
