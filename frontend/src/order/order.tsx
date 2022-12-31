@@ -5,7 +5,7 @@ import Header from "../components/header";
 import { FinalizedMenuItem, getTotal, ProductSizeNames } from "../utils";
 import { useOrder } from "./orderUtils";
 
-const CartScreen = () => {
+const OrderScreen = () => {
 	const { order, confirmOrder } = useOrder()
 
 	return (
@@ -23,7 +23,7 @@ const CartScreen = () => {
 					</View>
 				</View>
 			)}
-			<FooterWithButton buttonText="CONFIRM ORDER" onPress={() => confirmOrder()} />
+			<FooterWithButton buttonText="CONFIRM ORDER" onPress={() => confirmOrder()} sticky={true}/>
 		</>
 	)
 }
@@ -48,4 +48,4 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default CartScreen
+export default OrderScreen

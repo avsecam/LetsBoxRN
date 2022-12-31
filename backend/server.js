@@ -3,7 +3,7 @@ const express = require("express")
 const cors = require("cors")
 require("dotenv").config()
 
-const { MongoClient } = require("mongodb")
+const { MongoClient, ObjectId } = require("mongodb")
 
 const appUri = process.env.APP_URI
 
@@ -68,6 +68,10 @@ letsBoxApp.post("/add-order-user-:id", async (req, res) => {
 		res.status(500).send("Error posting order.")
 		console.error("error posting order.")
 	})
+})
+
+letsBoxApp.get("/newId", (req, res) => {
+	res.json(new ObjectId().toString())
 })
 
 letsBoxApp.use(cors())

@@ -1,14 +1,20 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 
-interface Props {
+type Props = {
 	buttonText: string,
 	onPress?: () => void,
+	sticky?: boolean,
+	extraStyle?: {},
 }
 
 const FooterWithButton = (props: Props) => {
 	return (
 		<>
-			<View style={styles.footer}>
+			<View style={(props.sticky) ? {
+				...styles.footer, ...props.extraStyle,
+				position: "absolute",
+				bottom: 0
+			} : {...styles.footer, ...props.extraStyle}}>
 				<TouchableOpacity style={styles.footerBtn} onPress={props.onPress}>
 					<Text style={styles.footerBtnText}>{props.buttonText}</Text>
 				</TouchableOpacity>
@@ -19,12 +25,9 @@ const FooterWithButton = (props: Props) => {
 
 const styles = StyleSheet.create({
 	footer: {
-		position: "absolute",
-		bottom: 0,
 		padding: 10,
 		width: "100%",
 		height: 80,
-		display: "flex",
 		justifyContent: "center",
 		backgroundColor: "gray",
 	},
@@ -33,7 +36,6 @@ const styles = StyleSheet.create({
 		height: "100%",
 		width: "100%",
 		backgroundColor: "red",
-		display: "flex",
 		justifyContent: "center",
 	},
 	footerBtnText: {
