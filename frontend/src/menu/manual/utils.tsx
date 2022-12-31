@@ -68,7 +68,7 @@ export const ManualOrderProvider = ({ children }: OrderProviderProps) => {
 		return choices[IngredientTypes.Toppings].length * extrasPrice
 	}
 
-	const createMenuItem = () => {
+	const createMenuItem = async () => {
 		let description: string = `${choices[IngredientTypes.Rice]?.name} Rice, ${choices[IngredientTypes.Mains]?.name},`
 
 		if (choices[IngredientTypes.Toppings].length === 1) {
@@ -84,8 +84,9 @@ export const ManualOrderProvider = ({ children }: OrderProviderProps) => {
 		}
 
 		let id: string = ""
-		fetch(`${BASE_URL}newId`)
-			// .then(res => console.log(res))
+		await fetch(`${BASE_URL}newId`)
+			.then(res => res.json())
+			.then(data => id = data)
 			.catch(err => console.error(err))
 
 		let menuItem: MenuItem = {
@@ -94,7 +95,6 @@ export const ManualOrderProvider = ({ children }: OrderProviderProps) => {
 			description,
 			type: ProductType.Food,
 		}
-
 		return menuItem
 	}
 

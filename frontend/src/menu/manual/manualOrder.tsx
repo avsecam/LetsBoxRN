@@ -46,7 +46,7 @@ const ManualOrderContainer = () => {
 			return
 		}
 
-		console.log(createMenuItem())
+		const newMenuItem: MenuItem = createMenuItem()
 	}
 
 	return (
