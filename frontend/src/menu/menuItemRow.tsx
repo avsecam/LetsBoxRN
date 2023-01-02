@@ -1,8 +1,9 @@
+import { useContext } from "react"
 import { useNavigation } from "@react-navigation/native"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native"
 import { NavigatorParams } from "../../App"
-import { useOrder } from "../order/orderUtils"
+import { OrderContext } from "../order/orderUtils"
 import { FinalizedMenuItem, MenuItem } from "../utils"
 
 type Props = {
@@ -10,7 +11,7 @@ type Props = {
 }
 
 const MenuItemRow = (props: Props) => {
-	const { order } = useOrder()
+	const { order } = useContext(OrderContext)
 
 	const navigation = useNavigation<NativeStackNavigationProp<NavigatorParams>>()
 

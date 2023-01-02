@@ -2,14 +2,14 @@ import { createContext, useContext, useState } from "react"
 import { Alert } from "react-native"
 import { Order, FinalizedMenuItem, userId } from "../utils"
 
-export const OrderContext = createContext({
-	order: {} as Order,
-	addToOrder: (item: FinalizedMenuItem) => { }, // Add or update order
-	removeFromOrder: (item: FinalizedMenuItem) => { },
-	confirmOrder: () => { },
-})
+type OrderContext = {
+	order: Order,
+	addToOrder: (item: FinalizedMenuItem) => void, // Add or update order
+	removeFromOrder: (item: FinalizedMenuItem) => void,
+	confirmOrder: () => void,
+}
 
-export const useOrder = () => useContext(OrderContext)
+export const OrderContext = createContext({} as OrderContext)
 
 type OrderProviderProps = { children: JSX.Element }
 export const OrderProvider = ({ children }: OrderProviderProps) => {

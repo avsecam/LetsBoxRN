@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { Alert } from "react-native";
-import { extrasPrice, MenuItem, FinalizedMenuItem, manualOrderName, ProductType, BASE_URL } from "../../utils";
+import { extrasPrice, MenuItem, FinalizedMenuItem, manualOrderName, ProductType, BASE_URL, ProductSizeNames, productSizes } from "../../utils";
 
 export enum IngredientTypes {
 	"Rice", "Mains", "Toppings"
@@ -18,8 +17,9 @@ type ManualOrderContext = {
 	changeMain: (choice: MenuItem) => void,
 	changeToppings: (choice: MenuItem) => void,
 	isInOrder: (item: MenuItem, category: IngredientTypes) => boolean,
+	getTotalPrice: (quantity: number, size: ProductSizeNames) => number,
 	getExtraPrice: () => number,
-	createMenuItem: () => MenuItem,
+	createFinalizedMenuItem: (quantity: number, size: ProductSizeNames) => Promise<FinalizedMenuItem>,
 }
 
 export const ManualOrderContext = createContext({} as ManualOrderContext)
@@ -64,11 +64,16 @@ export const ManualOrderProvider = ({ children }: OrderProviderProps) => {
 		}
 	}
 
-	const getExtraPrice = () => {
-		return choices[IngredientTypes.Toppings].length * extrasPrice
+	const getTotalPrice = (quantity: number, size: ProductSizeNames) => {
+		if (size < 0) return 0
+		return quantity * productSizes[size][1]
 	}
 
-	const createMenuItem = async () => {
+	const getExtraPrice = () => {
+		return (choices[IngredientTypes.Toppings].length < 1) ? 0 : (choices[IngredientTypes.Toppings].length - 1) * extrasPrice
+	}
+
+	const createFinalizedMenuItem = async (quantity: number, size: ProductSizeNames) => {
 		let description: string = `${choices[IngredientTypes.Rice]?.name} Rice, ${choices[IngredientTypes.Mains]?.name},`
 
 		if (choices[IngredientTypes.Toppings].length === 1) {
@@ -89,18 +94,29 @@ export const ManualOrderProvider = ({ children }: OrderProviderProps) => {
 			.then(data => id = data)
 			.catch(err => console.error(err))
 
-		let menuItem: MenuItem = {
-			_id: id,
+		let finalizedMenuItem: FinalizedMenuItem = {
+			id,
 			name: manualOrderName,
 			description,
 			type: ProductType.Food,
+			quantity,
+			size,
 		}
-		return menuItem
+		return finalizedMenuItem
 	}
 
 	return (
 		<>
-			<ManualOrderContext.Provider value={{ choices, changeRice, changeMain, changeToppings, isInOrder, getExtraPrice, createMenuItem }}>
+			<ManualOrderContext.Provider value={{
+				choices,
+				changeRice,
+				changeMain,
+				changeToppings,
+				isInOrder,
+				getTotalPrice,
+				getExtraPrice,
+				createFinalizedMenuItem
+			}}>
 				{children}
 			</ManualOrderContext.Provider>
 		</>

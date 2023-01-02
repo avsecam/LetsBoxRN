@@ -3,10 +3,10 @@ import { Alert, StyleSheet, Text, View } from "react-native";
 import FooterWithButton from "../components/footerWithButton";
 import Header from "../components/header";
 import { FinalizedMenuItem, getTotal, ProductSizeNames } from "../utils";
-import { useOrder } from "./orderUtils";
+import { OrderContext } from "./orderUtils";
 
 const OrderScreen = () => {
-	const { order, confirmOrder } = useOrder()
+	const { order, confirmOrder } = useContext(OrderContext)
 
 	return (
 		<>

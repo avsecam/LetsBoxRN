@@ -1,10 +1,10 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Alert, Image, Keyboard, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 import { NavigatorParams } from "../../App"
 import FooterWithButton from "../components/footerWithButton"
 import Header from "../components/header"
-import { useOrder } from "../order/orderUtils"
+import { OrderContext } from "../order/orderUtils"
 import { drinkPrice, FinalizedMenuItem, getTotal, MenuItem, ProductSizeNames, productSizes, ProductType } from "../utils"
 import SizeButton from "./sizeButton"
 
@@ -13,7 +13,7 @@ type Props = NativeStackScreenProps<NavigatorParams, "Product">
 const ProductScreen = ({ route, navigation }: Props) => {
 	const item: MenuItem = route.params.item
 
-	const { order, addToOrder, removeFromOrder } = useOrder()
+	const { order, addToOrder, removeFromOrder } = useContext(OrderContext)
 	
 	const existingItemsInOrder: FinalizedMenuItem[] = order.items.filter(val => val.id === item._id)
 

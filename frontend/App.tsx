@@ -25,17 +25,15 @@ const App: () => ReactNode = () => {
 	return (
 		<>
 			<OrderProvider>
-				<ManualOrderProvider>
-					<NavigationContainer theme={DarkTheme}>
-						<Stack.Navigator initialRouteName="MainMenu" screenOptions={{ headerShown: false }}>
-							<Stack.Screen name="MainMenu" component={MainMenu} />
-							<Stack.Screen name="Product" component={ProductScreen} />
-							<Stack.Screen name="Cart" component={OrderScreen} />
-							<Stack.Screen name="Manual1" component={ManualOrderScreen} />
-							<Stack.Screen name="Manual2" component={SizeAndQtyScreen} />
-						</Stack.Navigator>
-					</NavigationContainer>
-				</ManualOrderProvider>
+				<NavigationContainer theme={DarkTheme}>
+					<Stack.Navigator initialRouteName="MainMenu" screenOptions={{ headerShown: false }}>
+						<Stack.Screen name="MainMenu" component={MainMenu} />
+						<Stack.Screen name="Product" component={ProductScreen} />
+						<Stack.Screen name="Cart" component={OrderScreen} />
+						<Stack.Screen name="Manual1" component={ManualOrderScreen} />
+						<Stack.Screen name="Manual2" component={SizeAndQtyScreen} />
+					</Stack.Navigator>
+				</NavigationContainer>
 			</OrderProvider>
 		</>
 	)
