@@ -93,7 +93,7 @@ const ProductScreen = ({ route, navigation }: Props) => {
 				</KeyboardAvoidingView>
 				<Text style={styles.totalLabel}>P{getTotal(item, quantity, chosenSize).toFixed(2)}</Text>
 			</ScrollView>
-			{(keyboardVisibility) ? null : <FooterWithButton buttonText={(quantity > 0) ? "ADD TO CART" : "REMOVE FROM CART"} onPress={() => handleSubmit()} />}
+			{(keyboardVisibility) ? null : <FooterWithButton buttonText={(quantity > 0) ? "ADD TO ORDER" : "REMOVE FROM ORDER"} onPress={() => handleSubmit()} />}
 		</>
 	)
 }

@@ -11,6 +11,7 @@ export const OrderRow = (props: Props) => {
 			<View>
 				<Image source={(props.item.imageUrl) ? { uri: props.item.imageUrl } : require("../../assets/food.png")} />
 				<Text>{props.item.name}</Text>
+				<Text>{props.item.description}</Text>
 				{(props.item.size) ? <Text>{ProductSizeNames[props.item.size]}</Text> : null}
 			</View>
 		</>
